@@ -52,9 +52,9 @@ reposiciona_barricada()
 
 # Função para exibir a tela de "Game Over"
 def show_game_over_screen():
-    window.fill((135, 206, 250))  # Azul Celeste, mesma cor usada na tela inicial
+    window.fill((135, 206, 250))  
     font = pygame.font.SysFont(None, 72)
-    game_over_text = font.render("GAME OVER", True, (255, 0, 0))  # Vermelho para o texto
+    game_over_text = font.render("GAME OVER", True, (255, 0, 0))  
     window.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - game_over_text.get_height() // 2))
 
     # Mensagem de reinício
@@ -82,7 +82,7 @@ def show_start_screen():
     
     # Fonte maior e cor azul celeste para o título
     title_font = pygame.font.SysFont(None, 72)
-    title = title_font.render("RUN GAME", True, (135, 206, 250))  # Azul Celeste
+    title = title_font.render("RUN GAME", True, (135, 206, 250)) 
     
     # Fonte menor para a história
     font = pygame.font.SysFont(None, 40)

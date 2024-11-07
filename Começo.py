@@ -1,4 +1,4 @@
-## ADICIONANDO MOVIMENTO AO CARRO 
+## Sensor de perder no carro e game over!
 
 import pygame 
 import random 
@@ -26,11 +26,6 @@ imagem_carro_vermelho_width = 170
 imagem_carro_vermelho_height  = 160
 imagem_carro_vermelho = pygame.transform.scale(imagem_carro_vermelho, (imagem_carro_vermelho_width, imagem_carro_vermelho_height))
 imagem_carro_vermelho_rect = imagem_carro_vermelho.get_rect()
-# posiciona carro em 405 
-# imagem_carro_vermelho_rect.centerx = WIDTH / 2 #+ 60 # Centraliza o carro horizontalmente
-# imagem_carro_vermelho_rect.centery = HEIGHT - 70 # Centraliza o carro verticalmente BOTTOM 
-
-
 
 # Defina as faixas de estrada e posicione o carro inicialmente na faixa central (405)
 faixas_estrada_carro = [300, 435, 570]
@@ -49,9 +44,6 @@ imagem_barricada_rect.y = -imagem_barricada.get_height()
 faixas_estrada_barricada = [270, 405, 540]
 barricada_speed = 10
 
-
-
-
 # Função para reposicionar a barricada
 def reposiciona_barricada():
     imagem_barricada_rect.x = random.choice(faixas_estrada_barricada)
@@ -59,14 +51,18 @@ def reposiciona_barricada():
 
 reposiciona_barricada()
 
-
-
-
+## GAME OVER TELA!!!!!
+def show_game_over_screen():
+    window.fill((135, 206, 250))  # Azul Celeste, mesma cor usada na tela inicial
+    font = pygame.font.SysFont(None, 72)
+    game_over_text = font.render("GAME OVER", True, (255, 0, 0))  # Vermelho para o texto
+    window.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - game_over_text.get_height() // 2))
+    pygame.display.flip()
+    pygame.time.wait(3000)  # Mostra a tela de "Game Over" por 3 segundos
+    pygame.quit()
+    exit()
 
 ############################# LOOP PRINCIPAL ###################################
-
-# Índice atual da faixa onde o carro está posicionado
-faixa_atual = 1  # Começa no meio (faixa 405)
 
 loop = True 
 
@@ -76,8 +72,7 @@ while loop:
             loop = False
     
 
- #### movimento teclas 
-    # Captura as teclas pressionadas
+    #### Movimento com as teclas 
     keys = pygame.key.get_pressed()
 
     # Movimento para a esquerda
@@ -93,7 +88,6 @@ while loop:
             faixa_atual += 1  # Move para a faixa à direita
             imagem_carro_vermelho_rect.centerx = faixas_estrada_carro[faixa_atual]
             pygame.time.wait(150)  # Pequena pausa para evitar movimento rápido demais
-
 
 
     # Atualiza estado do jogo
@@ -113,7 +107,6 @@ while loop:
     window.blit(imagem_fundo, imagem_fundo_rect_2)
 
 
-
     # Atualiza a posição da barricada
     imagem_barricada_rect.y += barricada_speed
 
@@ -121,10 +114,12 @@ while loop:
     if imagem_barricada_rect.top >= HEIGHT:
         reposiciona_barricada()
 
+    # Verifica colisão entre o carro e a barricada
+    if imagem_carro_vermelho_rect.colliderect(imagem_barricada_rect):
+        show_game_over_screen()  # Chama a tela de "Game Over" se houver colisão
 
 
-
-## para aparecer elementos:
+    ## para aparecer elementos:
 
     # Desenha a barricada
     window.blit(imagem_barricada, imagem_barricada_rect)
@@ -132,10 +127,7 @@ while loop:
     # Desenha o carro vermelho
     window.blit(imagem_carro_vermelho, imagem_carro_vermelho_rect)
 
-
-
     pygame.display.update()
     clock.tick(FDS)
 
 pygame.quit()
-

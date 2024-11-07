@@ -1,5 +1,7 @@
-## FUNDO MEXENDO
+## ADICIONANDO BARRICADAS
+
 import pygame 
+import random 
 
 pygame.init()
 
@@ -11,10 +13,9 @@ HEIGHT = 600
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('🏃🏽‍♂️🏃🏽‍♀️RUN GAME🏃🏽‍♀️🏃🏽‍♂️')
 
-##RUA FUNDO 
-imagem_fundo = pygame.image.load('assets/img/RUA.png').convert()
-window.blit(imagem_fundo,(0, 0))
 
+imagem_fundo = pygame.image.load('assets/img/RUA.png').convert()
+# window.blit(imagem_fundo,(0, 0))
 imagem_fundo = pygame.transform.scale(imagem_fundo, (WIDTH, HEIGHT))
 imagem_fundo_rect = imagem_fundo.get_rect()
 speed_fundo = 10
@@ -30,8 +31,38 @@ imagem_carro_vermelho_rect.centerx = WIDTH / 2 + 60 # Centraliza o carro horizon
 imagem_carro_vermelho_rect.centery = HEIGHT  # Centraliza o carro verticalmente BOTTOM 
 
 
-loop = True 
+## BARRICADAS 
+imagem_barricada = pygame.image.load('assets/img/barricada.png').convert_alpha()
+imagem_barricada = pygame.transform.scale(imagem_barricada, (50, 50))
+imagem_barricada_rect = imagem_barricada.get_rect()
+imagem_barricada_rect.y = -imagem_barricada.get_height()
 
+# Defina as faixas de estrada
+faixas_estrada = [270, 405, 540]
+
+barricada_speed = 10
+
+
+
+
+# Função para reposicionar a barricada
+def reposiciona_barricada():
+    imagem_barricada_rect.x = random.choice(faixas_estrada)
+    imagem_barricada_rect.y = -imagem_barricada.get_height()
+
+reposiciona_barricada()
+
+
+
+
+
+
+
+
+
+############################# LOOP PRINCIPAL ###################################
+
+loop = True 
 
 while loop:
     for events in pygame.event.get():
@@ -55,11 +86,41 @@ while loop:
     window.blit(imagem_fundo, imagem_fundo_rect_2)
 
 
+
+    # Atualiza a posição da barricada
+    imagem_barricada_rect.y += barricada_speed
+
+    # Se a barricada saiu da janela, reposiciona ela no topo
+    if imagem_barricada_rect.top >= HEIGHT:
+        reposiciona_barricada()
+
+
+
+
+    # # Verifica colisão
+    # if imagem_carro_vermelho_rect.colliderect(imagem_barricada_rect):
+    #     game_over()
+
+
+
+
+
+
+## para aparecer elementos:
+
+    # Desenha a barricada
+    window.blit(imagem_barricada, imagem_barricada_rect)
+
     # Desenha o carro vermelho
     window.blit(imagem_carro_vermelho, imagem_carro_vermelho_rect)
+
+
 
     pygame.display.update()
     clock.tick(FDS)
 
 pygame.quit()
+
+
+
 

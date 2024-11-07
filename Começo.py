@@ -1,4 +1,4 @@
-## FUNDO + CARRO
+## FUNDO MEXENDO
 import pygame 
 
 pygame.init()
@@ -11,7 +11,7 @@ HEIGHT = 600
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('🏃🏽‍♂️🏃🏽‍♀️RUN GAME🏃🏽‍♀️🏃🏽‍♂️')
 
-
+##RUA FUNDO 
 imagem_fundo = pygame.image.load('assets/img/RUA.png').convert()
 window.blit(imagem_fundo,(0, 0))
 
@@ -32,18 +32,34 @@ imagem_carro_vermelho_rect.centery = HEIGHT  # Centraliza o carro verticalmente 
 
 loop = True 
 
+
 while loop:
     for events in pygame.event.get():
         if events.type == pygame.QUIT:
-            loop = False 
+            loop = False
 
-    # Desenha a imagem de fundo
-    window.blit(imagem_fundo, (0, 0))
-    
+    # Atualiza estado do jogo
+    window.fill((0, 0, 0))
+
+    # Atualiza a posição da imagem de fundo.
+    imagem_fundo_rect.y += speed_fundo
+
+    # Se o fundo saiu da janela, faz ele voltar para dentro.
+    if imagem_fundo_rect.top >= HEIGHT:
+        imagem_fundo_rect.y -= imagem_fundo_rect.height
+
+    # Desenha o fundo e uma cópia para baixo.
+    window.blit(imagem_fundo, imagem_fundo_rect)
+    imagem_fundo_rect_2 = imagem_fundo_rect.copy()
+    imagem_fundo_rect_2.y -= imagem_fundo_rect_2.height
+    window.blit(imagem_fundo, imagem_fundo_rect_2)
+
+
     # Desenha o carro vermelho
-    window.blit(imagem_carro_vermelho, (imagem_carro_vermelho_rect.x, imagem_carro_vermelho_rect.y))
+    window.blit(imagem_carro_vermelho, imagem_carro_vermelho_rect)
 
     pygame.display.update()
     clock.tick(FDS)
 
 pygame.quit()
+
